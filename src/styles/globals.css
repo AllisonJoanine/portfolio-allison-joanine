@@ -463,6 +463,11 @@ p {
   will-change: transform;
 }
 
+.story-frame {
+  pointer-events: none;
+  user-select: none;
+}
+
 .story-fallback {
   background:
     radial-gradient(circle at 30% 28%, rgba(34, 211, 238, 0.22), transparent 28rem),

@@ -80,15 +80,21 @@ const proofPoints = [
 export function ScrollVideoStory() {
   const containerRef = useRef<HTMLElement>(null);
   const visualRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [frameIndex, setFrameIndex] = useState(0);
   const [videoAvailable, setVideoAvailable] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
-  const videoSrc = `${import.meta.env.BASE_URL}videos/portfolio-scroll.mp4`;
-  const posterSrc = `${import.meta.env.BASE_URL}videos/portfolio-scroll-poster.jpg`;
+  const frameUrls = useMemo(
+    () =>
+      Array.from(
+        { length: 100 },
+        (_, index) => `${import.meta.env.BASE_URL}videos/scroll-frames/frame-${String(index + 1).padStart(3, "0")}.jpg`
+      ),
+    []
+  );
 
   const shouldSimplify = prefersReducedMotion || isMobile || !videoAvailable;
-  const shouldRenderVideo = videoAvailable && !shouldSimplify;
+  const shouldRenderFrames = videoAvailable && !shouldSimplify;
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -98,133 +104,113 @@ export function ScrollVideoStory() {
   }, []);
 
   useEffect(() => {
-    const container = containerRef.current;
-    const video = videoRef.current;
+    if (isMobile || prefersReducedMotion) {
+      return undefined;
+    }
 
-    if (!container || !video || shouldSimplify) {
+    let cancelled = false;
+    const preloaded: HTMLImageElement[] = [];
+
+    const preload = (src: string, critical = false) => {
+      const image = new Image();
+      image.decoding = "async";
+      image.src = src;
+      image.onerror = () => {
+        if (critical && !cancelled) {
+          setVideoAvailable(false);
+        }
+      };
+      preloaded.push(image);
+    };
+
+    frameUrls.slice(0, 18).forEach((src, index) => preload(src, index === 0));
+    const restTimer = window.setTimeout(() => {
+      frameUrls.slice(18).forEach((src) => preload(src));
+    }, 350);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(restTimer);
+      preloaded.length = 0;
+    };
+  }, [frameUrls, isMobile, prefersReducedMotion]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+
+    if (!container || shouldSimplify) {
       return undefined;
     }
 
     let ctx: gsap.Context | undefined;
     let frameId = 0;
-    let targetTime = 0;
-    let renderedTime = 0;
-    let lastSeekAt = 0;
-    let isActive = false;
+    let targetFrame = 0;
+    let renderedFrame = 0;
 
-    const stopSeekLoop = () => {
-      isActive = false;
-      if (frameId) {
-        window.cancelAnimationFrame(frameId);
-        frameId = 0;
-      }
-    };
+    ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        trigger: container,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.25,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          targetFrame = Math.min(frameUrls.length - 1, Math.max(0, Math.round(self.progress * (frameUrls.length - 1))));
 
-    const tick = (now: number) => {
-      if (!isActive) return;
-      frameId = window.requestAnimationFrame(tick);
+          if (frameId) return;
 
-      if (now - lastSeekAt < 82) return;
+          frameId = window.requestAnimationFrame(() => {
+            frameId = 0;
+            if (targetFrame === renderedFrame) return;
+            renderedFrame = targetFrame;
+            setFrameIndex(targetFrame);
+          });
+        }
+      });
 
-      const nextTime = renderedTime + (targetTime - renderedTime) * 0.5;
-      const closeEnough = Math.abs(targetTime - renderedTime) < 0.075;
-      if (closeEnough) return;
-
-      try {
-        video.currentTime = nextTime;
-        renderedTime = nextTime;
-        lastSeekAt = now;
-      } catch {
-        setVideoAvailable(false);
-      }
-    };
-
-    const startSeekLoop = () => {
-      if (isActive) return;
-      isActive = true;
-      frameId = window.requestAnimationFrame(tick);
-    };
-
-    const setup = () => {
-      const duration = Number.isFinite(video.duration) ? video.duration : 0;
-      if (!duration) return;
-
-      video.loop = false;
-      video.currentTime = 0;
-      video.pause();
-      renderedTime = 0;
-      targetTime = 0;
-
-      ctx = gsap.context(() => {
-        ScrollTrigger.create({
-          trigger: container,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 0.45,
-          invalidateOnRefresh: true,
-          onEnter: startSeekLoop,
-          onEnterBack: startSeekLoop,
-          onLeave: stopSeekLoop,
-          onLeaveBack: stopSeekLoop,
-          onUpdate: (self) => {
-            targetTime = self.progress * Math.max(0, duration - 0.06);
-            startSeekLoop();
-          }
-        });
-
-        gsap.utils.toArray<HTMLElement>(".story-step").forEach((step) => {
-          gsap.fromTo(
-            step,
-            { autoAlpha: 0, y: 38 },
-            {
-              autoAlpha: 1,
-              y: 0,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: step,
-                start: "top 78%",
-                end: "bottom 46%",
-                scrub: 0.35
-              }
+      gsap.utils.toArray<HTMLElement>(".story-step").forEach((step) => {
+        gsap.fromTo(
+          step,
+          { autoAlpha: 0, y: 38 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: step,
+              start: "top 78%",
+              end: "bottom 46%",
+              scrub: 0.35
             }
-          );
-        });
-      }, container);
-    };
-
-    if (video.readyState >= 1) {
-      setup();
-    } else {
-      video.addEventListener("loadedmetadata", setup, { once: true });
-    }
+          }
+        );
+      });
+    }, container);
 
     return () => {
-      video.removeEventListener("loadedmetadata", setup);
-      stopSeekLoop();
-      video.pause();
+      if (frameId) window.cancelAnimationFrame(frameId);
       ctx?.revert();
     };
-  }, [shouldSimplify]);
+  }, [frameUrls.length, shouldSimplify]);
 
   const visualLabel = useMemo(() => {
     if (!videoAvailable) return "Fallback visual ativo";
     if (isMobile) return "Mobile simplificado";
     if (prefersReducedMotion) return "Movimento reduzido";
-    return "Scroll controlando video";
+    return "Scroll liso por frames";
   }, [isMobile, prefersReducedMotion, videoAvailable]);
 
   return (
     <section className={`scroll-story ${shouldSimplify ? "is-simplified" : ""}`} ref={containerRef} aria-labelledby="story-title">
       <div className="story-visual" ref={visualRef} aria-hidden="true">
-        {shouldRenderVideo ? (
-          <video
-            ref={videoRef}
-            className="story-video"
-            src={videoSrc}
-            poster={posterSrc}
-            muted
-            playsInline
-            preload="auto"
+        {shouldRenderFrames ? (
+          <img
+            className="story-video story-frame"
+            src={frameUrls[frameIndex]}
+            alt=""
+            decoding="async"
+            draggable="false"
+            data-frame-index={frameIndex + 1}
             onError={() => setVideoAvailable(false)}
           />
         ) : null}
