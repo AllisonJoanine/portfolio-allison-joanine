@@ -8,8 +8,12 @@ export type Project = {
   problem: string;
   technologies: string[];
   href: string;
+  image?: string;
+  imageAlt?: string;
   featured?: boolean;
 };
+
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 
 export const projects: Project[] = [
   {
@@ -20,6 +24,8 @@ export const projects: Project[] = [
     problem: "Transforma cameras comuns em uma operação inteligente para identificar moradores, visitantes e desconhecidos.",
     technologies: ["React", "TypeScript", ".NET", "Python", "FastAPI", "PostgreSQL", "Docker", "OpenCV", "InsightFace", "SignalR"],
     href: "https://logiguardproduct.com",
+    image: asset("assets/showcase/logiguard-dashboard.png"),
+    imageAlt: "Dashboard real do LogiGuard",
     featured: true
   },
   {
@@ -30,6 +36,8 @@ export const projects: Project[] = [
     problem: "Organiza evidencias, checklists, fotos tecnicas e relatorios a partir de uma dor real do setor eolico.",
     technologies: ["React", "TypeScript", "Python", "OpenAI Vision", "Checklist HSE", "Relatorios"],
     href: "https://bladewise-ai.vercel.app/",
+    image: asset("assets/showcase/bladewise-ai.png"),
+    imageAlt: "Tela do BladeWise AI",
     featured: true
   },
   {
@@ -39,7 +47,9 @@ export const projects: Project[] = [
     description: "Sistema web de horarios de onibus criado como TCC, com chatbot de IA integrado.",
     problem: "Centraliza informacoes reais de transporte publico e melhora a consulta de horarios para usuarios.",
     technologies: ["React", "Flask", "PostgreSQL", "OpenAI API", "Vercel", "Render"],
-    href: "https://novo-site-da-city-votorantim.vercel.app/horarios"
+    href: "https://novo-site-da-city-votorantim.vercel.app/horarios",
+    image: asset("assets/showcase/city-votorantim.png"),
+    imageAlt: "Tela do City+ Votorantim com chatbot"
   },
   {
     name: "LogiCodem",

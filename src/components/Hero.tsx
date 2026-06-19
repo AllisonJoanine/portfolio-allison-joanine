@@ -5,6 +5,7 @@ const badges = ["Full Stack", "IA Aplicada", "Infraestrutura", "Seguranca", "Log
 
 export function Hero() {
   const cvHref = `${import.meta.env.BASE_URL}assets/Allison_Joanine_CV.pdf`;
+  const photoHref = `${import.meta.env.BASE_URL}assets/showcase/allison-joanine.jpg`;
 
   return (
     <section className="hero-section section-shell" id="home">
@@ -55,13 +56,17 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.15, duration: 0.8, ease: "easeOut" }}
-          aria-label="Resumo de valor"
+          aria-label="Foto e resumo profissional de Allison Joanine"
         >
-          <div className="orbit-core">
-            <span>AI</span>
+          <div className="hero-photo-frame">
+            <img src={photoHref} alt="Allison Joanine" />
           </div>
           <div className="orbit-ring ring-one" />
           <div className="orbit-ring ring-two" />
+          <div className="hero-profile-badge">
+            <span>Full Stack + IA</span>
+            <strong>Produtos reais, infraestrutura e seguranca.</strong>
+          </div>
           <div className="hero-signal signal-a">APIs</div>
           <div className="hero-signal signal-b">Deploy</div>
           <div className="hero-signal signal-c">Security</div>

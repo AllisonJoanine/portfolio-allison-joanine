@@ -1,8 +1,9 @@
-import { Camera, CircleAlert, Eye, Server, UserCheck } from "lucide-react";
-
 const techs = ["React", "TypeScript", ".NET", "Python", "FastAPI", "PostgreSQL", "Docker", "OpenCV", "InsightFace", "SignalR"];
 
 export function LogiGuardSection() {
+  const dashboardImage = `${import.meta.env.BASE_URL}assets/showcase/logiguard-dashboard.png`;
+  const landingImage = `${import.meta.env.BASE_URL}assets/showcase/logiguard-landing.png`;
+
   return (
     <section className="section-shell product-section logiguard-section" id="logiguard">
       <div className="product-copy">
@@ -22,23 +23,26 @@ export function LogiGuardSection() {
         </a>
       </div>
 
-      <div className="dashboard-mockup premium-card" aria-label="Mockup do dashboard LogiGuard">
-        <div className="mockup-top">
-          <strong>LogiGuard SOC</strong>
-          <span>Operacao em tempo real</span>
+      <div className="product-gallery premium-card logiguard-gallery" aria-label="Imagens reais do LogiGuard">
+        <div className="showcase-label">
+          <span>Produto real</span>
+          <strong>Dashboard operacional</strong>
         </div>
-        <div className="camera-grid">
-          <article><Camera size={20} /><strong>12</strong><span>Cameras online</span></article>
-          <article><UserCheck size={20} /><strong>Mariana Lopes</strong><span>Pessoa identificada</span></article>
-          <article className="critical"><CircleAlert size={20} /><strong>Alerta ativo</strong><span>Portao principal - 22:41</span></article>
-          <article><Server size={20} /><strong>Evento registrado</strong><span>Historico pesquisavel</span></article>
+        <div className="showcase-window is-dashboard">
+          <img src={dashboardImage} alt="Dashboard real do LogiGuard com validacao facial e alertas" loading="lazy" />
         </div>
-        <div className="recognition-panel">
-          <Eye size={22} />
-          <div>
-            <span>Reconhecimento facial</span>
-            <strong>Visitante autorizado detectado</strong>
-          </div>
+        <div className="showcase-duo">
+          <article>
+            <img src={landingImage} alt="Landing page comercial do LogiGuard" loading="lazy" />
+            <div>
+              <strong>Pagina de venda</strong>
+              <span>Oferta comercial para demonstracao e contato.</span>
+            </div>
+          </article>
+          <article>
+            <strong>IA + seguranca</strong>
+            <span>Reconhecimento facial, eventos, cameras e alertas em tempo real em uma experiencia unica.</span>
+          </article>
         </div>
       </div>
     </section>

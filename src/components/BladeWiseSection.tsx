@@ -13,14 +13,22 @@ const features: Feature[] = [
 ];
 
 export function BladeWiseSection() {
+  const bladeWiseImage = `${import.meta.env.BASE_URL}assets/showcase/bladewise-ai.png`;
+
   return (
     <section className="section-shell product-section bladewise-section" id="bladewise">
-      <div className="blade-visual premium-card" aria-label="Visual do produto BladeWise AI">
-        <div className="wind-blade" />
+      <div className="product-gallery blade-visual premium-card" aria-label="Imagem real do produto BladeWise AI">
+        <div className="showcase-label">
+          <span>BladeWise AI</span>
+          <strong>Tela real do sistema</strong>
+        </div>
+        <div className="showcase-window blade-login">
+          <img src={bladeWiseImage} alt="Tela de login do BladeWise AI" loading="lazy" />
+        </div>
         <div className="inspection-card">
-          <span>AI ANALYSIS</span>
-          <strong>Evidencia tecnica organizada</strong>
-          <p>Foto analisada, checklist vinculado e relatorio pronto para revisao.</p>
+          <span>CASE REAL</span>
+          <strong>Inspecao e manutencao eolica</strong>
+          <p>Plataforma pensada para apoiar tecnicos em uma dor real do mercado.</p>
         </div>
       </div>
 

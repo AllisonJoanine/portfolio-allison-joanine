@@ -33,7 +33,12 @@ export function Projects() {
 
       <div className="projects-grid">
         {visibleProjects.map((project) => (
-          <article className={`premium-card project-card ${project.featured ? "is-featured" : ""}`} key={project.name}>
+          <article className={`premium-card project-card ${project.featured ? "is-featured" : ""} ${project.image ? "has-image" : ""}`} key={project.name}>
+            {project.image ? (
+              <div className="project-media">
+                <img src={project.image} alt={project.imageAlt ?? `Imagem do projeto ${project.name}`} loading="lazy" />
+              </div>
+            ) : null}
             <div className="project-meta">
               <span>{project.categoryLabel}</span>
               <ExternalLink size={18} aria-hidden="true" />
