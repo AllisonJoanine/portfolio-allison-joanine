@@ -1,61 +1,81 @@
 # Allison Joanine Portfolio
 
-Portfólio profissional de Allison Joanine de Araujo Ribeiro, desenvolvido como site estático para GitHub Pages.
+Portfólio premium de Allison Joanine, criado com React, Vite, TypeScript, Tailwind CSS, GSAP ScrollTrigger, Framer Motion e Lucide React.
 
-## Conteúdo
+Site publicado: https://allisonjoanine.github.io/portfolio-allison-joanine/
 
-- Página única responsiva
-- Modo claro/escuro
-- Vídeo de fundo sincronizado com scroll
-- Filtros de projetos
-- Animações suaves
-- Botões funcionais de contato
-- Download de currículo em PDF
-- Publicação via GitHub Pages
+## Experiência
 
-## Vídeo de fundo
+- Hero comercial com CTAs para projetos, contato e currículo.
+- Narrativa por scroll em `ScrollVideoStory`, com vídeo controlado pelo progresso da página.
+- Fallback visual para mobile, vídeo indisponível e `prefers-reduced-motion`.
+- Seções fortes para About, Stack, Infraestrutura, LogiGuard, BladeWise AI, Projetos, Processo, Impacto e Contato.
+- Cards responsivos, menu mobile, botão de voltar ao topo, SEO e metatags Open Graph.
 
-O vídeo usado como fundo interativo fica em:
+## Estrutura
+
+```txt
+src/
+  components/
+  data/
+  hooks/
+  styles/
+  App.tsx
+  main.tsx
+public/
+  assets/
+  videos/
+```
+
+O vídeo principal do scrolltelling deve ficar em:
 
 ```txt
 public/videos/portfolio-scroll.mp4
 ```
 
-`public/videos/portfolio-background.mp4` foi mantido como cópia original.
-
-O poster/fallback fica em:
+O projeto também usa:
 
 ```txt
 public/videos/portfolio-scroll-poster.jpg
+public/assets/Allison_Joanine_CV.pdf
+public/assets/favicon.svg
 ```
-
-Como o site é publicado em GitHub Pages dentro de um subdiretório, os caminhos no HTML são relativos para funcionar corretamente em `https://allisonjoanine.github.io/portfolio-allison-joanine/`.
-
-O vídeo é sincronizado com as seções principais por GSAP + ScrollTrigger quando disponível, com fallback manual via `requestAnimationFrame`. Os tempos ficam nos atributos `data-video-start` e `data-video-end` no HTML:
-
-- Hero: 0s - 1.5s
-- About: 1.5s - 3s
-- Tech Stack: 3s - 4.7s
-- Infraestrutura e Segurança: 4.7s - 5.5s
-- LogiGuard: 5.5s - 6.4s
-- BladeWise AI: 6.4s - 7.3s
-- Projects: 7.3s - 8.5s
-- Process: 8.5s - 9.2s
-- Keywords: 9.2s - 9.6s
-- Contact: 9.6s - 10s
-
-## Links
-
-- Site: https://allisonjoanine.github.io/portfolio-allison-joanine/
-- GitHub: https://github.com/allisonjoanine
-- LinkedIn: https://www.linkedin.com/in/allison-joanine-de-araujo-ribeiro-404996258
-- YouTube: https://www.youtube.com/@ClariCodeSolutions
-- E-mail: allisonjoanine@gmail.com
 
 ## Rodando localmente
 
-Abra o `index.html` no navegador ou rode um servidor estático simples:
+```bash
+npm install
+npm run dev
+```
+
+Por padrão o Vite abre o projeto em um servidor local. Para testar o build final:
 
 ```bash
-python -m http.server 5500
+npm run build
+npm run preview
 ```
+
+## GitHub Pages
+
+O Vite está configurado com:
+
+```ts
+base: "/portfolio-allison-joanine/"
+```
+
+A publicação é feita pelo workflow `.github/workflows/pages.yml`. Ao fazer push na branch `main`, o GitHub Actions roda:
+
+```bash
+npm ci
+npm run build
+```
+
+Depois publica a pasta `dist` no GitHub Pages. Se necessário, em Settings > Pages, selecione `GitHub Actions` como origem da publicação.
+
+## Contato
+
+- WhatsApp: https://wa.me/5515991192202
+- LinkedIn: https://www.linkedin.com/in/allison-joanine-ti
+- GitHub: https://github.com/allisonjoanine
+- E-mail profissional: allisonjoanineofficial@gmail.com
+- E-mail LogiCodem: logicodem@gmail.com
