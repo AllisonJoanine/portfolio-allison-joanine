@@ -1,6 +1,23 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { BrainCircuit, Code2, Cpu, DatabaseZap, ShieldCheck, Workflow } from "lucide-react";
+import {
+  Boxes,
+  BrainCircuit,
+  Cable,
+  CircleCheckBig,
+  Code2,
+  Cpu,
+  DatabaseZap,
+  Layers3,
+  Rocket,
+  ScanFace,
+  ServerCog,
+  ShieldCheck,
+  Sparkles,
+  Users,
+  Workflow,
+  Zap
+} from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 
@@ -39,6 +56,27 @@ const storySteps = [
   }
 ];
 
+const storySignals = [
+  { label: "Suporte real", value: "usuarios, incidentes e operacao", icon: Users },
+  { label: "Ambiente seguro", value: "VPN, firewall, AD e permissoes", icon: ShieldCheck },
+  { label: "Produto publicado", value: "frontend, backend, banco e deploy", icon: Rocket },
+  { label: "IA aplicada", value: "visao, automacao e dados", icon: BrainCircuit }
+];
+
+const deliveryLayers = [
+  { title: "Descoberta", text: "Entendo a dor, o fluxo atual e o que precisa virar sistema.", icon: ScanFace },
+  { title: "Arquitetura", text: "Organizo dados, permissoes, APIs, telas e caminho de deploy.", icon: Layers3 },
+  { title: "Construcao", text: "Crio a experiencia completa com codigo limpo e foco em uso real.", icon: Code2 },
+  { title: "Operacao", text: "Penso em manutencao, seguranca, performance e melhoria continua.", icon: ServerCog }
+];
+
+const proofPoints = [
+  { value: "Full Stack", label: "interface, API e banco conectados", icon: Boxes },
+  { value: "Infra", label: "visao pratica de ambiente corporativo", icon: Cable },
+  { value: "Security", label: "acessos, riscos e rastreabilidade", icon: CircleCheckBig },
+  { value: "AI", label: "inteligencia onde gera resultado", icon: Sparkles }
+];
+
 export function ScrollVideoStory() {
   const containerRef = useRef<HTMLElement>(null);
   const visualRef = useRef<HTMLDivElement>(null);
@@ -68,24 +106,46 @@ export function ScrollVideoStory() {
     }
 
     let ctx: gsap.Context | undefined;
+    let frameId = 0;
+    let targetTime = 0;
+    let lastAppliedTime = -1;
+
     const setup = () => {
       const duration = Number.isFinite(video.duration) ? video.duration : 0;
       if (!duration) return;
+
+      video.pause();
 
       ctx = gsap.context(() => {
         ScrollTrigger.create({
           trigger: container,
           start: "top top",
           end: "bottom bottom",
-          scrub: true,
+          scrub: 0.55,
           pin: visual,
           pinSpacing: false,
+          anticipatePin: 1,
+          fastScrollEnd: true,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            try {
-              video.currentTime = self.progress * Math.max(0, duration - 0.05);
-            } catch {
-              setVideoAvailable(false);
+            targetTime = self.progress * Math.max(0, duration - 0.05);
+            if (frameId) return;
+
+            frameId = window.requestAnimationFrame(() => {
+              frameId = 0;
+              if (Math.abs(targetTime - lastAppliedTime) < 0.045) return;
+
+              try {
+                video.currentTime = targetTime;
+                lastAppliedTime = targetTime;
+              } catch {
+                setVideoAvailable(false);
+              }
+            });
+          },
+          onLeave: () => {
+            if (duration > 0) {
+              targetTime = Math.max(0, duration - 0.05);
             }
           }
         });
@@ -93,17 +153,16 @@ export function ScrollVideoStory() {
         gsap.utils.toArray<HTMLElement>(".story-step").forEach((step) => {
           gsap.fromTo(
             step,
-            { autoAlpha: 0, y: 44, filter: "blur(14px)" },
+            { autoAlpha: 0, y: 38 },
             {
               autoAlpha: 1,
               y: 0,
-              filter: "blur(0px)",
               ease: "power3.out",
               scrollTrigger: {
                 trigger: step,
-                start: "top 72%",
-                end: "bottom 42%",
-                scrub: true
+                start: "top 78%",
+                end: "bottom 46%",
+                scrub: 0.35
               }
             }
           );
@@ -118,6 +177,7 @@ export function ScrollVideoStory() {
     }
 
     return () => {
+      if (frameId) window.cancelAnimationFrame(frameId);
       video.removeEventListener("loadedmetadata", setup);
       ctx?.revert();
     };
@@ -171,6 +231,76 @@ export function ScrollVideoStory() {
             </article>
           );
         })}
+
+        <div className="story-step story-wide story-signal-board premium-card">
+          <div>
+            <p className="eyebrow">O que aparece no video</p>
+            <h3>Um mapa visual da minha forma de construir.</h3>
+            <p>
+              O fundo deixa de ser apenas decoracao: ele acompanha a evolucao de suporte, infraestrutura,
+              desenvolvimento, IA e produto final.
+            </p>
+          </div>
+          <div className="story-signal-grid">
+            {storySignals.map((signal) => {
+              const Icon = signal.icon;
+              return (
+                <article key={signal.label}>
+                  <Icon size={22} aria-hidden="true" />
+                  <strong>{signal.label}</strong>
+                  <span>{signal.value}</span>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="story-step story-wide story-layer-flow">
+          <div className="story-flow-heading">
+            <p className="eyebrow">Pipeline LogiCodem</p>
+            <h3>Da conversa inicial ao sistema rodando.</h3>
+          </div>
+          <div className="story-layer-grid">
+            {deliveryLayers.map((layer, index) => {
+              const Icon = layer.icon;
+              return (
+                <article className="premium-card" key={layer.title}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <Icon size={23} aria-hidden="true" />
+                  <strong>{layer.title}</strong>
+                  <p>{layer.text}</p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="story-step story-wide story-proof-strip" aria-label="Pontos fortes antes do sobre mim">
+          {proofPoints.map((point) => {
+            const Icon = point.icon;
+            return (
+            <article key={point.value}>
+              <Icon size={22} aria-hidden="true" />
+              <strong>{point.value}</strong>
+              <span>{point.label}</span>
+            </article>
+            );
+          })}
+        </div>
+
+        <article className="story-step story-wide story-handoff premium-card">
+          <div>
+            <p className="eyebrow">Agora sim</p>
+            <h3>Com esse contexto, o Sobre mim entra mais forte.</h3>
+            <p>
+              A proxima secao explica de onde vem essa combinacao de codigo, infraestrutura, seguranca e IA:
+              experiencia real, projetos reais e vontade de transformar problema em produto.
+            </p>
+          </div>
+          <a className="button primary" href="#about">
+            Ir para Sobre mim <Zap size={18} aria-hidden="true" />
+          </a>
+        </article>
       </div>
     </section>
   );
