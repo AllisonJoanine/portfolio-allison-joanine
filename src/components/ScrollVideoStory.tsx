@@ -106,29 +106,70 @@ export function ScrollVideoStory() {
     }
 
     let ctx: gsap.Context | undefined;
-    const playVideo = () => {
-      video.playbackRate = 0.82;
-      void video.play().catch(() => setVideoAvailable(false));
+    let frameId = 0;
+    let targetTime = 0;
+    let renderedTime = 0;
+    let lastSeekAt = 0;
+    let isActive = false;
+
+    const stopSeekLoop = () => {
+      isActive = false;
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+        frameId = 0;
+      }
     };
-    const pauseVideo = () => video.pause();
+
+    const tick = (now: number) => {
+      if (!isActive) return;
+      frameId = window.requestAnimationFrame(tick);
+
+      if (now - lastSeekAt < 82) return;
+
+      const nextTime = renderedTime + (targetTime - renderedTime) * 0.5;
+      const closeEnough = Math.abs(targetTime - renderedTime) < 0.075;
+      if (closeEnough) return;
+
+      try {
+        video.currentTime = nextTime;
+        renderedTime = nextTime;
+        lastSeekAt = now;
+      } catch {
+        setVideoAvailable(false);
+      }
+    };
+
+    const startSeekLoop = () => {
+      if (isActive) return;
+      isActive = true;
+      frameId = window.requestAnimationFrame(tick);
+    };
 
     const setup = () => {
       const duration = Number.isFinite(video.duration) ? video.duration : 0;
       if (!duration) return;
 
+      video.loop = false;
       video.currentTime = 0;
-      playVideo();
+      video.pause();
+      renderedTime = 0;
+      targetTime = 0;
 
       ctx = gsap.context(() => {
         ScrollTrigger.create({
           trigger: container,
           start: "top top",
           end: "bottom bottom",
+          scrub: 0.45,
           invalidateOnRefresh: true,
-          onEnter: playVideo,
-          onEnterBack: playVideo,
-          onLeave: pauseVideo,
-          onLeaveBack: pauseVideo
+          onEnter: startSeekLoop,
+          onEnterBack: startSeekLoop,
+          onLeave: stopSeekLoop,
+          onLeaveBack: stopSeekLoop,
+          onUpdate: (self) => {
+            targetTime = self.progress * Math.max(0, duration - 0.06);
+            startSeekLoop();
+          }
         });
 
         gsap.utils.toArray<HTMLElement>(".story-step").forEach((step) => {
@@ -159,7 +200,8 @@ export function ScrollVideoStory() {
 
     return () => {
       video.removeEventListener("loadedmetadata", setup);
-      pauseVideo();
+      stopSeekLoop();
+      video.pause();
       ctx?.revert();
     };
   }, [shouldSimplify]);
@@ -168,7 +210,7 @@ export function ScrollVideoStory() {
     if (!videoAvailable) return "Fallback visual ativo";
     if (isMobile) return "Mobile simplificado";
     if (prefersReducedMotion) return "Movimento reduzido";
-    return "Video fluido ativo";
+    return "Scroll controlando video";
   }, [isMobile, prefersReducedMotion, videoAvailable]);
 
   return (
@@ -180,8 +222,6 @@ export function ScrollVideoStory() {
             className="story-video"
             src={videoSrc}
             poster={posterSrc}
-            autoPlay
-            loop
             muted
             playsInline
             preload="auto"
