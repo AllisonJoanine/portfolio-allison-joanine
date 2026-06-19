@@ -29,6 +29,17 @@ public/videos/portfolio-background-poster.jpg
 
 Como o site é publicado em GitHub Pages dentro de um subdiretório, os caminhos no HTML são relativos para funcionar corretamente em `https://allisonjoanine.github.io/portfolio-allison-joanine/`.
 
+O vídeo é sincronizado com as seções principais por atributos `data-video-start` e `data-video-end` no HTML:
+
+- Hero: 0s - 1.5s
+- About: 1.5s - 3s
+- Tech Stack: 3s - 4.7s
+- Infraestrutura e Segurança: 4.7s - 5.5s
+- LogiGuard: 5.5s - 6.5s
+- BladeWise AI: 6.5s - 7.7s
+- Projects: 7.7s - 9.3s
+- Contact: 9.3s - 10s
+
 ## Links
 
 - Site: https://allisonjoanine.github.io/portfolio-allison-joanine/

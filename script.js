@@ -6,7 +6,8 @@ const navLinks = document.querySelector("#mainNav");
 const scrollProgress = document.querySelector("#scrollProgress");
 const toast = document.querySelector("#toast");
 const typewriter = document.querySelector("#typewriter");
-const scrollVideo = document.querySelector("#portfolio-scroll-video");
+const scrollVideos = [...document.querySelectorAll(".scroll-controlled-video")];
+const scrollVideo = document.querySelector("#portfolio-scroll-video") || scrollVideos[0];
 
 const typingPhrases = [
   "AI Applied to Real Problems",
@@ -81,6 +82,11 @@ function initScrollVideoBackground() {
   if (!scrollVideo) return;
 
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const videoScenes = [...document.querySelectorAll("[data-video-start][data-video-end]")].map((section) => ({
+    section,
+    start: Number(section.dataset.videoStart),
+    end: Number(section.dataset.videoEnd)
+  })).filter((scene) => Number.isFinite(scene.start) && Number.isFinite(scene.end));
   const state = {
     duration: 0,
     ready: false,
@@ -97,6 +103,37 @@ function initScrollVideoBackground() {
     return Math.min(1, Math.max(0, window.scrollY / maxScrollTop()));
   }
 
+  function sceneMappedTime() {
+    if (!videoScenes.length) {
+      return scrollRatio() * state.duration;
+    }
+
+    if (window.scrollY <= 2) {
+      return 0;
+    }
+
+    if (window.scrollY >= maxScrollTop() - 2) {
+      return state.duration;
+    }
+
+    const anchor = window.scrollY + window.innerHeight * 0.48;
+    let activeScene = videoScenes[0];
+
+    for (const scene of videoScenes) {
+      if (anchor >= scene.section.offsetTop) {
+        activeScene = scene;
+      }
+    }
+
+    const sectionTop = activeScene.section.offsetTop;
+    const sectionHeight = Math.max(1, activeScene.section.offsetHeight);
+    const localProgress = Math.min(1, Math.max(0, (anchor - sectionTop) / sectionHeight));
+    const sceneTime = activeScene.start + (activeScene.end - activeScene.start) * localProgress;
+    const normalizedDuration = state.duration / 10;
+
+    return sceneTime * normalizedDuration;
+  }
+
   function syncVideoToScroll() {
     state.ticking = false;
 
@@ -104,7 +141,7 @@ function initScrollVideoBackground() {
       return;
     }
 
-    const nextTime = scrollRatio() * state.duration;
+    const nextTime = sceneMappedTime();
 
     if (!Number.isFinite(nextTime) || Math.abs(nextTime - state.lastTime) < 0.045) {
       return;
@@ -112,7 +149,12 @@ function initScrollVideoBackground() {
 
     try {
       const maxTime = Math.max(0, state.duration - 0.02);
-      scrollVideo.currentTime = Math.min(maxTime, Math.max(0, nextTime));
+      const clampedTime = Math.min(maxTime, Math.max(0, nextTime));
+      scrollVideos.forEach((video) => {
+        if (video.readyState >= 1) {
+          video.currentTime = clampedTime;
+        }
+      });
       state.lastTime = nextTime;
     } catch {
       document.body.classList.add("video-error");
@@ -130,8 +172,12 @@ function initScrollVideoBackground() {
     document.body.classList.toggle("reduced-motion", matches);
     if (matches) {
       try {
-        scrollVideo.pause();
-        scrollVideo.currentTime = 0;
+        scrollVideos.forEach((video) => {
+          video.pause();
+          if (video.readyState >= 1) {
+            video.currentTime = 0;
+          }
+        });
       } catch {
         document.body.classList.add("video-error");
       }
@@ -140,9 +186,11 @@ function initScrollVideoBackground() {
     }
   }
 
-  scrollVideo.muted = true;
-  scrollVideo.playsInline = true;
-  scrollVideo.pause();
+  scrollVideos.forEach((video) => {
+    video.muted = true;
+    video.playsInline = true;
+    video.pause();
+  });
   setReducedMotion(prefersReducedMotion.matches);
 
   function handleLoadedMetadata() {
@@ -152,10 +200,11 @@ function initScrollVideoBackground() {
     requestVideoSync();
   }
 
-  scrollVideo.addEventListener("loadedmetadata", handleLoadedMetadata);
-
-  scrollVideo.addEventListener("error", () => {
-    document.body.classList.add("video-error");
+  scrollVideos.forEach((video) => {
+    video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    video.addEventListener("error", () => {
+      document.body.classList.add("video-error");
+    });
   });
 
   if (prefersReducedMotion.addEventListener) {
@@ -168,7 +217,7 @@ function initScrollVideoBackground() {
   window.addEventListener("resize", requestVideoSync, { passive: true });
   window.addEventListener("orientationchange", requestVideoSync, { passive: true });
 
-  scrollVideo.load();
+  scrollVideos.forEach((video) => video.load());
   if (scrollVideo.readyState >= 1) {
     handleLoadedMetadata();
   }
