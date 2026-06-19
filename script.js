@@ -24,8 +24,7 @@ function setTheme(theme) {
 }
 
 const savedTheme = localStorage.getItem("portfolio-theme");
-const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-setTheme(savedTheme || (prefersDark ? "dark" : "light"));
+setTheme(savedTheme || "dark");
 
 themeToggle.addEventListener("click", () => {
   setTheme(root.dataset.theme === "dark" ? "light" : "dark");
@@ -92,7 +91,9 @@ function initScrollVideoBackground() {
     ready: false,
     ticking: false,
     lastTime: -1,
-    disabled: prefersReducedMotion.matches
+    disabled: prefersReducedMotion.matches,
+    gsapReady: false,
+    scrollTrigger: null
   };
 
   function maxScrollTop() {
@@ -197,7 +198,25 @@ function initScrollVideoBackground() {
     state.duration = scrollVideo.duration;
     state.ready = Number.isFinite(state.duration) && state.duration > 0;
     document.body.classList.toggle("video-ready", state.ready);
+    initGsapScrollVideo();
     requestVideoSync();
+  }
+
+  function initGsapScrollVideo() {
+    if (state.gsapReady || state.disabled || !state.ready || !window.gsap || !window.ScrollTrigger) {
+      return;
+    }
+
+    window.gsap.registerPlugin(window.ScrollTrigger);
+    state.gsapReady = true;
+    state.scrollTrigger = window.ScrollTrigger.create({
+      trigger: document.body,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: true,
+      invalidateOnRefresh: true,
+      onUpdate: () => syncVideoToScroll()
+    });
   }
 
   scrollVideos.forEach((video) => {
@@ -225,6 +244,89 @@ function initScrollVideoBackground() {
 }
 
 initScrollVideoBackground();
+
+function initGsapStoryAnimations() {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion || !window.gsap || !window.ScrollTrigger) {
+    return;
+  }
+
+  const { gsap, ScrollTrigger } = window;
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.utils.toArray("[data-reveal]").forEach((element) => {
+    gsap.fromTo(element, {
+      autoAlpha: 0,
+      y: 34,
+      filter: "blur(12px)"
+    }, {
+      autoAlpha: 1,
+      y: 0,
+      filter: "blur(0px)",
+      duration: 0.9,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: element,
+        start: "top 82%",
+        once: true
+      }
+    });
+  });
+
+  gsap.utils.toArray(".process-timeline article").forEach((item, index) => {
+    gsap.fromTo(item, {
+      boxShadow: "0 28px 90px rgba(0, 0, 0, 0.34)"
+    }, {
+      boxShadow: "0 34px 120px rgba(0, 0, 0, 0.44), 0 0 54px rgba(34, 211, 238, 0.18)",
+      duration: 0.8,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: item,
+        start: `top ${78 - index * 2}%`,
+        toggleActions: "play none none reverse"
+      }
+    });
+  });
+
+  const keywordSection = document.querySelector("#keywords");
+  const keywordStage = document.querySelector(".keyword-stage");
+  const words = gsap.utils.toArray(".keyword-words span");
+
+  if (keywordSection && keywordStage && words.length) {
+    gsap.set(words, { autoAlpha: 0, y: 28, scale: 0.96 });
+    gsap.set(words[0], { autoAlpha: 1, y: 0, scale: 1 });
+
+    const keywordTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: keywordSection,
+        start: "top top",
+        end: "+=160%",
+        scrub: true,
+        pin: keywordStage,
+        anticipatePin: 1
+      }
+    });
+
+    words.forEach((word, index) => {
+      keywordTimeline.to(words, {
+        autoAlpha: 0,
+        y: -20,
+        scale: 0.96,
+        duration: 0.22,
+        ease: "power2.out"
+      }, index);
+      keywordTimeline.to(word, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.34,
+        ease: "power3.out"
+      }, index + 0.08);
+    });
+  }
+}
+
+window.addEventListener("load", initGsapStoryAnimations);
 
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
