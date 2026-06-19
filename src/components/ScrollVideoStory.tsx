@@ -88,6 +88,7 @@ export function ScrollVideoStory() {
   const posterSrc = `${import.meta.env.BASE_URL}videos/portfolio-scroll-poster.jpg`;
 
   const shouldSimplify = prefersReducedMotion || isMobile || !videoAvailable;
+  const shouldRenderVideo = videoAvailable && !shouldSimplify;
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -98,56 +99,36 @@ export function ScrollVideoStory() {
 
   useEffect(() => {
     const container = containerRef.current;
-    const visual = visualRef.current;
     const video = videoRef.current;
 
-    if (!container || !visual || !video || shouldSimplify) {
+    if (!container || !video || shouldSimplify) {
       return undefined;
     }
 
     let ctx: gsap.Context | undefined;
-    let frameId = 0;
-    let targetTime = 0;
-    let lastAppliedTime = -1;
+    const playVideo = () => {
+      video.playbackRate = 0.82;
+      void video.play().catch(() => setVideoAvailable(false));
+    };
+    const pauseVideo = () => video.pause();
 
     const setup = () => {
       const duration = Number.isFinite(video.duration) ? video.duration : 0;
       if (!duration) return;
 
-      video.pause();
+      video.currentTime = 0;
+      playVideo();
 
       ctx = gsap.context(() => {
         ScrollTrigger.create({
           trigger: container,
           start: "top top",
           end: "bottom bottom",
-          scrub: 0.55,
-          pin: visual,
-          pinSpacing: false,
-          anticipatePin: 1,
-          fastScrollEnd: true,
           invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            targetTime = self.progress * Math.max(0, duration - 0.05);
-            if (frameId) return;
-
-            frameId = window.requestAnimationFrame(() => {
-              frameId = 0;
-              if (Math.abs(targetTime - lastAppliedTime) < 0.045) return;
-
-              try {
-                video.currentTime = targetTime;
-                lastAppliedTime = targetTime;
-              } catch {
-                setVideoAvailable(false);
-              }
-            });
-          },
-          onLeave: () => {
-            if (duration > 0) {
-              targetTime = Math.max(0, duration - 0.05);
-            }
-          }
+          onEnter: playVideo,
+          onEnterBack: playVideo,
+          onLeave: pauseVideo,
+          onLeaveBack: pauseVideo
         });
 
         gsap.utils.toArray<HTMLElement>(".story-step").forEach((step) => {
@@ -177,8 +158,8 @@ export function ScrollVideoStory() {
     }
 
     return () => {
-      if (frameId) window.cancelAnimationFrame(frameId);
       video.removeEventListener("loadedmetadata", setup);
+      pauseVideo();
       ctx?.revert();
     };
   }, [shouldSimplify]);
@@ -187,18 +168,20 @@ export function ScrollVideoStory() {
     if (!videoAvailable) return "Fallback visual ativo";
     if (isMobile) return "Mobile simplificado";
     if (prefersReducedMotion) return "Movimento reduzido";
-    return "ScrollTrigger ativo";
+    return "Video fluido ativo";
   }, [isMobile, prefersReducedMotion, videoAvailable]);
 
   return (
     <section className={`scroll-story ${shouldSimplify ? "is-simplified" : ""}`} ref={containerRef} aria-labelledby="story-title">
       <div className="story-visual" ref={visualRef} aria-hidden="true">
-        {videoAvailable ? (
+        {shouldRenderVideo ? (
           <video
             ref={videoRef}
             className="story-video"
             src={videoSrc}
             poster={posterSrc}
+            autoPlay
+            loop
             muted
             playsInline
             preload="auto"
