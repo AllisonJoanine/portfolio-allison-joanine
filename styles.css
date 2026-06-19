@@ -41,6 +41,7 @@ html {
 }
 
 body {
+  position: relative;
   margin: 0;
   min-height: 100vh;
   color: var(--text);
@@ -56,13 +57,71 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 1;
   pointer-events: none;
   background-image:
     linear-gradient(rgba(100, 116, 139, 0.08) 1px, transparent 1px),
     linear-gradient(90deg, rgba(100, 116, 139, 0.08) 1px, transparent 1px);
   background-size: 42px 42px;
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent 75%);
+}
+
+.scroll-video-background,
+.scroll-video-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+.scroll-video-background {
+  z-index: 0;
+  object-fit: cover;
+  opacity: 0.5;
+  background: #020617 url("public/videos/portfolio-background-poster.jpg") center / cover no-repeat;
+  filter: saturate(1.12) contrast(1.08) brightness(0.82);
+}
+
+.scroll-video-overlay {
+  z-index: 1;
+  background:
+    radial-gradient(circle at 50% 34%, rgba(56, 189, 248, 0.16), transparent 30%),
+    radial-gradient(circle at 76% 18%, rgba(124, 58, 237, 0.24), transparent 27%),
+    radial-gradient(circle at center, rgba(15, 23, 42, 0.1), rgba(2, 6, 23, 0.55)),
+    linear-gradient(to bottom, rgba(248, 250, 252, 0.72), rgba(248, 250, 252, 0.86) 42%, rgba(248, 250, 252, 0.94));
+  backdrop-filter: blur(1px);
+}
+
+[data-theme="dark"] .scroll-video-background {
+  opacity: 0.58;
+  filter: saturate(1.18) contrast(1.12) brightness(0.72);
+}
+
+[data-theme="dark"] .scroll-video-overlay {
+  background:
+    radial-gradient(circle at 48% 30%, rgba(34, 211, 238, 0.16), transparent 30%),
+    radial-gradient(circle at 78% 18%, rgba(167, 139, 250, 0.26), transparent 27%),
+    radial-gradient(circle at center, rgba(15, 23, 42, 0.22), rgba(2, 6, 23, 0.84)),
+    linear-gradient(to bottom, rgba(2, 6, 23, 0.5), rgba(2, 6, 23, 0.82) 46%, rgba(2, 6, 23, 0.94));
+}
+
+.video-error .scroll-video-background,
+.reduced-motion .scroll-video-background {
+  opacity: 0.36;
+}
+
+.video-error .scroll-video-overlay,
+.reduced-motion .scroll-video-overlay {
+  backdrop-filter: none;
+}
+
+.site-header,
+main,
+.site-footer,
+.toast {
+  position: relative;
+  z-index: 2;
 }
 
 a {
@@ -887,5 +946,9 @@ h3 {
     scroll-behavior: auto !important;
     transition: none !important;
     animation: none !important;
+  }
+
+  .scroll-video-background {
+    opacity: 0.3;
   }
 }

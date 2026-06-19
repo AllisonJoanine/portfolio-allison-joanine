@@ -6,6 +6,7 @@ const navLinks = document.querySelector("#mainNav");
 const scrollProgress = document.querySelector("#scrollProgress");
 const toast = document.querySelector("#toast");
 const typewriter = document.querySelector("#typewriter");
+const scrollVideo = document.querySelector("#portfolio-scroll-video");
 
 const typingPhrases = [
   "AI Applied to Real Problems",
@@ -75,6 +76,106 @@ function typeLoop() {
 }
 
 typeLoop();
+
+function initScrollVideoBackground() {
+  if (!scrollVideo) return;
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const state = {
+    duration: 0,
+    ready: false,
+    ticking: false,
+    lastTime: -1,
+    disabled: prefersReducedMotion.matches
+  };
+
+  function maxScrollTop() {
+    return Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+  }
+
+  function scrollRatio() {
+    return Math.min(1, Math.max(0, window.scrollY / maxScrollTop()));
+  }
+
+  function syncVideoToScroll() {
+    state.ticking = false;
+
+    if (state.disabled || !state.ready || !Number.isFinite(state.duration) || state.duration <= 0) {
+      return;
+    }
+
+    const nextTime = scrollRatio() * state.duration;
+
+    if (!Number.isFinite(nextTime) || Math.abs(nextTime - state.lastTime) < 0.045) {
+      return;
+    }
+
+    try {
+      const maxTime = Math.max(0, state.duration - 0.02);
+      scrollVideo.currentTime = Math.min(maxTime, Math.max(0, nextTime));
+      state.lastTime = nextTime;
+    } catch {
+      document.body.classList.add("video-error");
+    }
+  }
+
+  function requestVideoSync() {
+    if (state.disabled || state.ticking) return;
+    state.ticking = true;
+    window.requestAnimationFrame(syncVideoToScroll);
+  }
+
+  function setReducedMotion(matches) {
+    state.disabled = matches;
+    document.body.classList.toggle("reduced-motion", matches);
+    if (matches) {
+      try {
+        scrollVideo.pause();
+        scrollVideo.currentTime = 0;
+      } catch {
+        document.body.classList.add("video-error");
+      }
+    } else {
+      requestVideoSync();
+    }
+  }
+
+  scrollVideo.muted = true;
+  scrollVideo.playsInline = true;
+  scrollVideo.pause();
+  setReducedMotion(prefersReducedMotion.matches);
+
+  function handleLoadedMetadata() {
+    state.duration = scrollVideo.duration;
+    state.ready = Number.isFinite(state.duration) && state.duration > 0;
+    document.body.classList.toggle("video-ready", state.ready);
+    requestVideoSync();
+  }
+
+  scrollVideo.addEventListener("loadedmetadata", handleLoadedMetadata);
+
+  scrollVideo.addEventListener("error", () => {
+    document.body.classList.add("video-error");
+  });
+
+  if (prefersReducedMotion.addEventListener) {
+    prefersReducedMotion.addEventListener("change", (event) => setReducedMotion(event.matches));
+  } else if (prefersReducedMotion.addListener) {
+    prefersReducedMotion.addListener((event) => setReducedMotion(event.matches));
+  }
+
+  window.addEventListener("scroll", requestVideoSync, { passive: true });
+  window.addEventListener("resize", requestVideoSync, { passive: true });
+  window.addEventListener("orientationchange", requestVideoSync, { passive: true });
+
+  scrollVideo.load();
+  if (scrollVideo.readyState >= 1) {
+    handleLoadedMetadata();
+  }
+  requestVideoSync();
+}
+
+initScrollVideoBackground();
 
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
