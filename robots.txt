@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://allisonjoanine.github.io/portfolio-allison-joanine/sitemap.xml
