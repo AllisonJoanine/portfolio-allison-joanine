@@ -1,4 +1,5 @@
 import { ArrowDownRight, MessageCircle } from "lucide-react";
+import { ActionLink } from "./ActionLink";
 import { AnimatedText } from "./AnimatedText";
 
 const signals = ["web", "infra", "automação", "IA aplicada"];
@@ -24,12 +25,12 @@ export function Hero() {
           </p>
 
           <div className="hero-actions">
-            <a className="button button-primary" href="#projects">
-              Ver projetos <ArrowDownRight size={18} aria-hidden="true" />
-            </a>
-            <a className="button button-quiet" href="#contact">
-              Entrar em contato <MessageCircle size={18} aria-hidden="true" />
-            </a>
+            <ActionLink code="01" href="#projects" icon={<ArrowDownRight size={18} aria-hidden="true" />} variant="solid">
+              Ver projetos
+            </ActionLink>
+            <ActionLink code="02" href="#contact" icon={<MessageCircle size={18} aria-hidden="true" />}>
+              Entrar em contato
+            </ActionLink>
           </div>
 
           <div className="hero-signals" aria-label="Áreas de atuação">

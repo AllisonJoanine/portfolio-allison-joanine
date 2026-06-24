@@ -36,8 +36,17 @@ export function Projects() {
                     <span key={tech}>{tech}</span>
                   ))}
                 </div>
-                <a className="text-link" href={project.href} target={isExternal ? "_blank" : undefined} rel={isExternal ? "noreferrer" : undefined}>
-                  {project.cta} <ArrowUpRight size={17} aria-hidden="true" />
+                <a
+                  className="text-link"
+                  href={project.href}
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noreferrer" : undefined}
+                >
+                  <span className="text-link__label">{project.cta}</span>
+                  <span className="text-link__rule" aria-hidden="true" />
+                  <span className="text-link__mark">
+                    <ArrowUpRight size={17} aria-hidden="true" />
+                  </span>
                 </a>
               </div>
 

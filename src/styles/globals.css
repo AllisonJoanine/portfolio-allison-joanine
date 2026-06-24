@@ -168,57 +168,139 @@ p {
   margin-bottom: 0;
 }
 
-.button,
-.contact-button {
-  min-height: 48px;
-  display: inline-flex;
+.craft-button {
+  --button-bg: rgba(16, 18, 14, 0.72);
+  --button-fg: var(--text);
+  --button-line: rgba(241, 234, 220, 0.2);
+  position: relative;
+  min-height: 54px;
+  display: inline-grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 0 18px;
-  font-weight: 800;
+  gap: 14px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--button-line);
+  padding: 0 16px 0 13px;
+  color: var(--button-fg);
+  background: var(--button-bg);
+  clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+  font-weight: 850;
+  letter-spacing: 0.01em;
   transition:
-    transform 180ms ease,
     border-color 180ms ease,
-    background 180ms ease,
-    color 180ms ease;
+    color 180ms ease,
+    background 180ms ease;
 }
 
-.button:hover,
-.button:focus-visible,
-.contact-button:hover,
-.contact-button:focus-visible {
-  transform: translateY(-2px);
+.craft-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(241, 234, 220, 0.16), transparent 48%),
+    repeating-linear-gradient(135deg, rgba(241, 234, 220, 0.1) 0 1px, transparent 1px 9px);
+  opacity: 0;
+  transform: translateX(-12%);
+  transition:
+    opacity 180ms ease,
+    transform 240ms ease;
+}
+
+.craft-button::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  bottom: 10px;
+  width: 1px;
+  background: currentColor;
+  opacity: 0.28;
+}
+
+.craft-button:hover,
+.craft-button:focus-visible {
   border-color: var(--line-strong);
   outline: none;
 }
 
-.button-primary {
-  color: #10120e;
-  border-color: transparent;
-  background: var(--accent);
+.craft-button:hover::before,
+.craft-button:focus-visible::before {
+  opacity: 1;
+  transform: translateX(0);
 }
 
-.button-quiet {
-  color: var(--text);
-  background: rgba(16, 18, 14, 0.72);
+.craft-button-solid {
+  --button-bg: linear-gradient(90deg, #d9a23e, #c18a36);
+  --button-fg: #0c0d09;
+  --button-line: rgba(209, 154, 62, 0.88);
+}
+
+.craft-button-line {
+  --button-bg: rgba(16, 18, 14, 0.78);
+  --button-fg: var(--text);
+}
+
+.craft-button__code {
+  color: currentColor;
+  font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 900;
+  opacity: 0.72;
+}
+
+.craft-button__label {
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.craft-button__mark {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: 1px solid currentColor;
+  opacity: 0.9;
+  clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
 }
 
 .text-link {
   width: fit-content;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   color: var(--accent);
   font-weight: 850;
+  letter-spacing: 0.01em;
 }
 
 .text-link:hover,
 .text-link:focus-visible {
   color: var(--text);
   outline: none;
+}
+
+.text-link__rule {
+  width: 34px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.45;
+  transform-origin: left center;
+  transition:
+    width 180ms ease,
+    opacity 180ms ease;
+}
+
+.text-link__mark {
+  display: grid;
+  place-items: center;
+}
+
+.text-link:hover .text-link__rule,
+.text-link:focus-visible .text-link__rule {
+  width: 52px;
+  opacity: 0.8;
 }
 
 .site-header {
@@ -745,12 +827,85 @@ p {
 
 .contact-actions {
   justify-content: center;
+  gap: 14px;
 }
 
 .contact-button {
-  min-width: 156px;
+  position: relative;
+  min-width: 230px;
+  min-height: 74px;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--line);
+  padding: 13px 16px;
   color: var(--text);
-  background: rgba(7, 8, 6, 0.58);
+  background:
+    linear-gradient(90deg, rgba(209, 154, 62, 0.08), transparent 54%),
+    rgba(7, 8, 6, 0.58);
+  clip-path: polygon(0 0, calc(100% - 13px) 0, 100% 13px, 100% 100%, 13px 100%, 0 calc(100% - 13px));
+  text-align: left;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.contact-button::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  transform: scaleY(0.38);
+  transform-origin: center;
+  transition: transform 200ms ease;
+}
+
+.contact-button:hover,
+.contact-button:focus-visible {
+  border-color: var(--line-strong);
+  background:
+    linear-gradient(90deg, rgba(209, 154, 62, 0.14), transparent 62%),
+    rgba(7, 8, 6, 0.78);
+  outline: none;
+}
+
+.contact-button:hover::before,
+.contact-button:focus-visible::before {
+  transform: scaleY(1);
+}
+
+.contact-button__icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(209, 154, 62, 0.34);
+  color: var(--accent);
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+}
+
+.contact-button__label,
+.contact-button__detail {
+  display: block;
+}
+
+.contact-button__label {
+  font-weight: 880;
+}
+
+.contact-button__detail {
+  margin-top: 4px;
+  overflow: hidden;
+  color: var(--soft);
+  font-size: 0.76rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .contact-button svg {
@@ -930,7 +1085,7 @@ p {
     font-size: 1.22rem;
   }
 
-  .button,
+  .craft-button,
   .contact-button {
     width: 100%;
   }

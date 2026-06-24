@@ -38,8 +38,13 @@ export function Contact() {
               <Tooltip.Root key={label}>
                 <Tooltip.Trigger asChild>
                   <a className="contact-button" href={href} target={href.startsWith("http") ? "_blank" : undefined} rel={href.startsWith("http") ? "noreferrer" : undefined}>
-                    <Icon size={19} aria-hidden="true" />
-                    <span>{label}</span>
+                    <span className="contact-button__icon">
+                      <Icon size={19} aria-hidden="true" />
+                    </span>
+                    <span>
+                      <span className="contact-button__label">{label}</span>
+                      <span className="contact-button__detail">{detail}</span>
+                    </span>
                   </a>
                 </Tooltip.Trigger>
                 <Tooltip.Portal>

@@ -7,10 +7,12 @@ import { Projects } from "./components/Projects";
 import { Skills } from "./components/Skills";
 import { SmoothScrollProvider } from "./components/SmoothScrollProvider";
 import { Timeline } from "./components/Timeline";
+import { useButtonChoreography } from "./hooks/useButtonChoreography";
 import { useGsapReveal } from "./hooks/useGsapReveal";
 
 export default function App() {
   useGsapReveal();
+  useButtonChoreography();
 
   return (
     <SmoothScrollProvider>

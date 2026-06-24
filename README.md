@@ -1,12 +1,13 @@
 # Allison Joanine Portfolio
 
-Portfólio de Allison Joanine, desenvolvido com React, Vite, TypeScript, Tailwind CSS, GSAP, Lenis, SplitType, Radix UI e Lucide React.
+Portfólio de Allison Joanine, desenvolvido com React, Vite, TypeScript, Tailwind CSS, GSAP, @gsap/react, Lenis, SplitType, Radix UI e Lucide React.
 
 Site publicado: https://allisonjoanine.github.io/portfolio-allison-joanine/
 
 ## Experiência
 
 - Hero autoral com animação de título usando SplitType + GSAP.
+- CTAs com formato próprio, cantos recortados e microinterações via @gsap/react.
 - Scroll suave com Lenis, respeitando `prefers-reduced-motion`.
 - Seções para Sobre, Projetos em destaque, Experiência técnica, Linha do tempo e Contato.
 - Projetos apresentados em blocos diferentes para LogiGuard, City Votorantim e Predicta.
