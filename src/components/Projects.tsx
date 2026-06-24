@@ -1,64 +1,61 @@
-import { ExternalLink } from "lucide-react";
-import { useMemo, useState } from "react";
-import { projectFilters, projects, type ProjectCategory } from "../data/projects";
+import { ArrowUpRight } from "lucide-react";
+import { projects } from "../data/projects";
+import { SectionHeader } from "./SectionHeader";
 
 export function Projects() {
-  const [filter, setFilter] = useState<ProjectCategory | "all">("all");
-
-  const visibleProjects = useMemo(() => {
-    if (filter === "all") return projects;
-    return projects.filter((project) => project.categories.includes(filter));
-  }, [filter]);
-
   return (
-    <section className="section-shell content-section" id="projects">
-      <div className="section-heading compact-heading">
-        <p className="eyebrow">Cases e Projetos</p>
-        <h2>Projetos que conectam tecnologia a problemas reais.</h2>
-        <p>Cada card mostra o problema, a solucao e as tecnologias usadas para transformar ideia em produto.</p>
-      </div>
+    <section className="section-shell content-section projects-section" id="projects">
+      <SectionHeader
+        eyebrow="Projetos em destaque"
+        title="Três projetos com naturezas diferentes, todos nascidos de problemas reais."
+        align="center"
+      >
+        <p>
+          A ideia aqui não é empilhar cards iguais. Cada projeto aparece no formato que combina com a história dele:
+          produto de segurança, serviço público com dados reais e pesquisa aplicada.
+        </p>
+      </SectionHeader>
 
-      <div className="filter-row" aria-label="Filtros de projetos">
-        {projectFilters.map((item) => (
-          <button
-            className={filter === item.value ? "is-active" : ""}
-            key={item.value}
-            type="button"
-            onClick={() => setFilter(item.value)}
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
+      <div className="project-stack">
+        {projects.map((project, index) => {
+          const isExternal = project.href.startsWith("http");
 
-      <div className="projects-grid">
-        {visibleProjects.map((project) => (
-          <article className={`premium-card project-card ${project.featured ? "is-featured" : ""} ${project.image ? "has-image" : ""}`} key={project.name}>
-            {project.image ? (
-              <div className="project-media">
-                <img src={project.image} alt={project.imageAlt ?? `Imagem do projeto ${project.name}`} loading="lazy" />
+          return (
+            <article className={`project-story project-story-${project.layout}`} data-reveal key={project.name}>
+              <div className="project-index" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
               </div>
-            ) : null}
-            <div className="project-meta">
-              <span>{project.categoryLabel}</span>
-              <ExternalLink size={18} aria-hidden="true" />
-            </div>
-            <h3>{project.name}</h3>
-            <p>{project.description}</p>
-            <div className="problem-box">
-              <strong>Problema que resolve</strong>
-              <span>{project.problem}</span>
-            </div>
-            <div className="chip-row">
-              {project.technologies.map((tech) => (
-                <b key={tech}>{tech}</b>
-              ))}
-            </div>
-            <a className="button secondary" href={project.href} target="_blank" rel="noreferrer">
-              Ver projeto
-            </a>
-          </article>
-        ))}
+
+              <div className="project-copy">
+                <p className="project-kicker">{project.kicker}</p>
+                <h3>{project.name}</h3>
+                <p>{project.description}</p>
+                <strong>{project.highlight}</strong>
+                <div className="chip-row" aria-label={`Tecnologias do projeto ${project.name}`}>
+                  {project.technologies.map((tech) => (
+                    <span key={tech}>{tech}</span>
+                  ))}
+                </div>
+                <a className="text-link" href={project.href} target={isExternal ? "_blank" : undefined} rel={isExternal ? "noreferrer" : undefined}>
+                  {project.cta} <ArrowUpRight size={17} aria-hidden="true" />
+                </a>
+              </div>
+
+              <div className="project-visual" aria-hidden={project.image ? undefined : "true"}>
+                {project.image ? (
+                  <img src={project.image} alt={project.imageAlt ?? `Imagem do projeto ${project.name}`} loading="lazy" />
+                ) : (
+                  <div className="sensor-board">
+                    <span />
+                    <span />
+                    <span />
+                    <strong>Predicta</strong>
+                  </div>
+                )}
+              </div>
+            </article>
+          );
+        })}
       </div>
     </section>
   );

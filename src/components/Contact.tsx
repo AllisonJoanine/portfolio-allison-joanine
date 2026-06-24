@@ -1,60 +1,57 @@
-import { AtSign, BriefcaseBusiness, Code2, Mail, MessageCircle } from "lucide-react";
+import * as Tooltip from "@radix-ui/react-tooltip";
+import { BriefcaseBusiness, Code2, Mail, MessageCircle } from "lucide-react";
+import { SectionHeader } from "./SectionHeader";
 
 type ContactLink = {
   label: string;
   href: string;
-  text: string;
+  detail: string;
   Icon: typeof MessageCircle;
 };
 
 const contacts: ContactLink[] = [
-  { label: "WhatsApp", href: "https://wa.me/5515991192202", text: "Falar agora", Icon: MessageCircle },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/allison-joanine-ti", text: "Conectar", Icon: BriefcaseBusiness },
-  { label: "GitHub", href: "https://github.com/allisonjoanine", text: "Ver repositorios", Icon: Code2 },
-  { label: "E-mail", href: "mailto:allisonjoanineofficial@gmail.com", text: "Enviar mensagem", Icon: Mail }
+  { label: "GitHub", href: "https://github.com/allisonjoanine", detail: "github.com/allisonjoanine", Icon: Code2 },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/allison-joanine-ti",
+    detail: "linkedin.com/in/allison-joanine-ti",
+    Icon: BriefcaseBusiness
+  },
+  { label: "WhatsApp", href: "https://wa.me/5515991192202", detail: "wa.me/5515991192202", Icon: MessageCircle },
+  { label: "E-mail", href: "mailto:allisonjoanineofficial@gmail.com", detail: "allisonjoanineofficial@gmail.com", Icon: Mail }
 ];
 
 export function Contact() {
   return (
     <section className="section-shell contact-section" id="contact">
-      <div className="contact-card premium-card">
-        <p className="eyebrow">Contato</p>
-        <h2>Vamos construir algo inteligente?</h2>
-        <p>
-          Se voce precisa tirar uma ideia do papel, criar um sistema, automatizar processos ou desenvolver uma
-          solucao com IA, vamos conversar.
-        </p>
+      <div className="contact-panel" data-reveal>
+        <SectionHeader eyebrow="Contato" title="Se a ideia precisa virar sistema, podemos conversar." align="center">
+          <p>
+            Tenho interesse em projetos que juntem desenvolvimento, automação, dados, infraestrutura e IA de um jeito
+            simples de operar. Estes são os melhores canais para falar comigo.
+          </p>
+        </SectionHeader>
 
-        <div className="contact-actions">
-          {contacts.map(({ label, href, text, Icon }) => (
-            <a className="button primary" href={href} target="_blank" rel="noreferrer" key={label}>
-              <Icon size={18} /> {text}
-            </a>
-          ))}
-        </div>
-
-        <div className="contact-grid" aria-label="Contatos organizados">
-          <article>
-            <span>WhatsApp</span>
-            <strong>https://wa.me/5515991192202</strong>
-          </article>
-          <article>
-            <span>LinkedIn</span>
-            <strong>linkedin.com/in/allison-joanine-ti</strong>
-          </article>
-          <article>
-            <span>GitHub</span>
-            <strong>github.com/allisonjoanine</strong>
-          </article>
-          <article>
-            <span>E-mail profissional</span>
-            <strong>allisonjoanineofficial@gmail.com</strong>
-          </article>
-          <article>
-            <span>E-mail LogiCodem</span>
-            <strong><AtSign size={15} aria-hidden="true" /> logicodem@gmail.com</strong>
-          </article>
-        </div>
+        <Tooltip.Provider delayDuration={120}>
+          <div className="contact-actions" aria-label="Links de contato">
+            {contacts.map(({ label, href, detail, Icon }) => (
+              <Tooltip.Root key={label}>
+                <Tooltip.Trigger asChild>
+                  <a className="contact-button" href={href} target={href.startsWith("http") ? "_blank" : undefined} rel={href.startsWith("http") ? "noreferrer" : undefined}>
+                    <Icon size={19} aria-hidden="true" />
+                    <span>{label}</span>
+                  </a>
+                </Tooltip.Trigger>
+                <Tooltip.Portal>
+                  <Tooltip.Content className="contact-tooltip" sideOffset={10}>
+                    {detail}
+                    <Tooltip.Arrow className="contact-tooltip-arrow" />
+                  </Tooltip.Content>
+                </Tooltip.Portal>
+              </Tooltip.Root>
+            ))}
+          </div>
+        </Tooltip.Provider>
       </div>
     </section>
   );

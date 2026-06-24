@@ -1,16 +1,16 @@
-export type ProjectCategory = "ai" | "security" | "web" | "mobile" | "infra";
+export type ProjectLayout = "anchor" | "route" | "signal";
 
 export type Project = {
   name: string;
-  categoryLabel: string;
-  categories: ProjectCategory[];
+  kicker: string;
   description: string;
-  problem: string;
+  highlight: string;
   technologies: string[];
   href: string;
+  cta: string;
+  layout: ProjectLayout;
   image?: string;
   imageAlt?: string;
-  featured?: boolean;
 };
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
@@ -18,73 +18,49 @@ const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 export const projects: Project[] = [
   {
     name: "LogiGuard",
-    categoryLabel: "IA + Segurança",
-    categories: ["ai", "security", "web", "infra"],
-    description: "Sistema de segurança inteligente com IA, reconhecimento facial, eventos e alertas em tempo real.",
-    problem: "Transforma cameras comuns em uma operação inteligente para identificar moradores, visitantes e desconhecidos.",
-    technologies: ["React", "TypeScript", ".NET", "Python", "FastAPI", "PostgreSQL", "Docker", "OpenCV", "InsightFace", "SignalR"],
+    kicker: "SaaS multi-tenant / segurança inteligente",
+    description:
+      "Plataforma de segurança com IA, reconhecimento facial, câmeras, eventos, validações e alertas em tempo real.",
+    highlight: "Voltado para segurança residencial e empresarial, com visão de produto e operação contínua.",
+    technologies: [
+      "React",
+      "TypeScript",
+      "ASP.NET Core",
+      "Python FastAPI",
+      "PostgreSQL",
+      "Redis",
+      "Docker",
+      "IA",
+      "Reconhecimento facial"
+    ],
     href: "https://logiguardproduct.com",
+    cta: "Ver produto",
+    layout: "anchor",
     image: asset("assets/showcase/logiguard-dashboard.png"),
-    imageAlt: "Dashboard real do LogiGuard",
-    featured: true
-  },
-  {
-    name: "BladeWise AI",
-    categoryLabel: "IA + Energia Eolica",
-    categories: ["ai", "web"],
-    description: "Plataforma com IA para apoio em inspecao, documentacao e analise visual de pas eolicas.",
-    problem: "Organiza evidencias, checklists, fotos tecnicas e relatorios a partir de uma dor real do setor eolico.",
-    technologies: ["React", "TypeScript", "Python", "OpenAI Vision", "Checklist HSE", "Relatorios"],
-    href: "https://bladewise-ai.vercel.app/",
-    image: asset("assets/showcase/bladewise-ai.png"),
-    imageAlt: "Tela do BladeWise AI",
-    featured: true
+    imageAlt: "Dashboard do LogiGuard com dados de segurança"
   },
   {
     name: "City Votorantim",
-    categoryLabel: "Web + IA",
-    categories: ["ai", "web"],
-    description: "Sistema web de horarios de onibus criado como TCC, com chatbot de IA integrado.",
-    problem: "Centraliza informacoes reais de transporte publico e melhora a consulta de horarios para usuarios.",
-    technologies: ["React", "Flask", "PostgreSQL", "OpenAI API", "Vercel", "Render"],
+    kicker: "Dados reais / utilidade pública",
+    description:
+      "Sistema web de horários de ônibus com chatbot integrado, usando dados reais e respostas baseadas no banco de dados.",
+    highlight: "Projeto acadêmico e aplicado, pensado para consulta rápida e uso cotidiano por moradores.",
+    technologies: ["React", "Flask", "PostgreSQL", "OpenAI", "Vercel", "Render"],
     href: "https://novo-site-da-city-votorantim.vercel.app/horarios",
+    cta: "Abrir sistema",
+    layout: "route",
     image: asset("assets/showcase/city-votorantim.png"),
-    imageAlt: "Tela do City+ Votorantim com chatbot"
+    imageAlt: "Interface do City Votorantim com horários de ônibus"
   },
   {
-    name: "LogiCodem",
-    categoryLabel: "Marca + Solucoes",
-    categories: ["ai", "web", "mobile"],
-    description: "Marca propria para desenvolvimento de sistemas, automacoes, aplicacoes e produtos digitais com IA.",
-    problem: "Leva inteligencia aplicada ao codigo para empresas e pessoas que precisam tirar ideias do papel.",
-    technologies: ["Solucoes Digitais", "IA", "Automacao", "Web", "Mobile"],
-    href: "https://github.com/allisonjoanine/logicodem-site"
-  },
-  {
-    name: "LeiFacil",
-    categoryLabel: "Legal Tech",
-    categories: ["ai", "web"],
-    description: "Projeto para simplificar o acesso a informacoes juridicas usando tecnologia, dados e IA.",
-    problem: "Ajuda pessoas a entender informacoes legais com mais clareza e organizacao.",
-    technologies: ["IA", "APIs", "Banco de Dados", "Web"],
-    href: "https://github.com/allisonjoanine/LeiFacil"
-  },
-  {
-    name: "Reconhecimento Facial",
-    categoryLabel: "Computer Vision",
-    categories: ["ai", "security"],
-    description: "Projetos e experimentos com reconhecimento facial, processamento de imagem e analise visual.",
-    problem: "Explora identificacao visual e classificacao inteligente para produtos reais de seguranca e automacao.",
-    technologies: ["Python", "OpenCV", "IA", "Computer Vision"],
-    href: "https://github.com/allisonjoanine/ReconhecimentoFacial"
+    name: "Predicta",
+    kicker: "Sensores / análise preditiva",
+    description:
+      "Projeto de análise preditiva com sensores e tecnologia aplicada à prevenção, monitoramento e leitura antecipada de risco.",
+    highlight: "Solução inovadora apresentada em formato acadêmico e profissional, com foco em prevenção.",
+    technologies: ["Sensores", "Análise preditiva", "Monitoramento", "Dados", "Automação"],
+    href: "#contact",
+    cta: "Conversar sobre o projeto",
+    layout: "signal"
   }
-];
-
-export const projectFilters: Array<{ label: string; value: ProjectCategory | "all" }> = [
-  { label: "Todos", value: "all" },
-  { label: "IA", value: "ai" },
-  { label: "Seguranca", value: "security" },
-  { label: "Web", value: "web" },
-  { label: "Mobile", value: "mobile" },
-  { label: "Infraestrutura", value: "infra" }
 ];

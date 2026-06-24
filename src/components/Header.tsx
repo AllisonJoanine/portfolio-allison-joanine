@@ -2,14 +2,11 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const navItems = [
-  ["About", "#about"],
-  ["Stack", "#stack"],
-  ["Infra", "#infra"],
-  ["LogiGuard", "#logiguard"],
-  ["BladeWise", "#bladewise"],
-  ["Projects", "#projects"],
-  ["Process", "#process"],
-  ["Contact", "#contact"]
+  ["Sobre", "#about"],
+  ["Projetos", "#projects"],
+  ["Experiência", "#skills"],
+  ["Jornada", "#timeline"],
+  ["Contato", "#contact"]
 ];
 
 export function Header() {
@@ -17,8 +14,8 @@ export function Header() {
 
   return (
     <header className="site-header">
-      <nav className="nav-shell" aria-label="Navegacao principal">
-        <a className="brand" href="#home" aria-label="Voltar ao inicio" onClick={() => setOpen(false)}>
+      <nav className="nav-shell" aria-label="Navegação principal">
+        <a className="brand" href="#home" aria-label="Voltar ao início" onClick={() => setOpen(false)}>
           <span>AJ</span>
           <strong>Allison Joanine</strong>
         </a>
@@ -27,10 +24,11 @@ export function Header() {
           className="menu-button"
           type="button"
           aria-label={open ? "Fechar menu" : "Abrir menu"}
+          aria-controls="main-navigation"
           aria-expanded={open}
           onClick={() => setOpen((value) => !value)}
         >
-          {open ? <X size={21} /> : <Menu size={21} />}
+          {open ? <X size={21} aria-hidden="true" /> : <Menu size={21} aria-hidden="true" />}
         </button>
 
         <div className={`nav-links ${open ? "is-open" : ""}`} id="main-navigation">
@@ -40,10 +38,6 @@ export function Header() {
             </a>
           ))}
         </div>
-
-        <a className="nav-cta" href="#contact">
-          Contratar
-        </a>
       </nav>
     </header>
   );

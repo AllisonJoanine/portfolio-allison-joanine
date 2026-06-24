@@ -1,22 +1,32 @@
 # Allison Joanine Portfolio
 
-Portfólio premium de Allison Joanine, criado com React, Vite, TypeScript, Tailwind CSS, GSAP ScrollTrigger, Framer Motion e Lucide React.
+Portfólio de Allison Joanine, desenvolvido com React, Vite, TypeScript, Tailwind CSS, GSAP, Lenis, SplitType, Radix UI e Lucide React.
 
 Site publicado: https://allisonjoanine.github.io/portfolio-allison-joanine/
 
 ## Experiência
 
-- Hero comercial com CTAs para projetos, contato e currículo.
-- Narrativa por scroll em `ScrollVideoStory`, com vídeo controlado pelo progresso da página.
-- Fallback visual para mobile, vídeo indisponível e `prefers-reduced-motion`.
-- Seções fortes para About, Stack, Infraestrutura, LogiGuard, BladeWise AI, Projetos, Processo, Impacto e Contato.
-- Cards responsivos, menu mobile, botão de voltar ao topo, SEO e metatags Open Graph.
+- Hero autoral com animação de título usando SplitType + GSAP.
+- Scroll suave com Lenis, respeitando `prefers-reduced-motion`.
+- Seções para Sobre, Projetos em destaque, Experiência técnica, Linha do tempo e Contato.
+- Projetos apresentados em blocos diferentes para LogiGuard, City Votorantim e Predicta.
+- Componentes acessíveis com Radix UI para abas técnicas e tooltips de contato.
+- Tema escuro com textura sutil, linhas, microinterações e layout responsivo.
 
 ## Estrutura
 
 ```txt
 src/
   components/
+    AnimatedText.tsx
+    SmoothScrollProvider.tsx
+    SectionHeader.tsx
+    Hero.tsx
+    About.tsx
+    Projects.tsx
+    Skills.tsx
+    Timeline.tsx
+    Contact.tsx
   data/
   hooks/
   styles/
@@ -24,21 +34,6 @@ src/
   main.tsx
 public/
   assets/
-  videos/
-```
-
-O vídeo principal do scrolltelling deve ficar em:
-
-```txt
-public/videos/portfolio-scroll.mp4
-```
-
-O projeto também usa:
-
-```txt
-public/videos/portfolio-scroll-poster.jpg
-public/assets/Allison_Joanine_CV.pdf
-public/assets/favicon.svg
 ```
 
 ## Rodando localmente
@@ -48,7 +43,7 @@ npm install
 npm run dev
 ```
 
-Por padrão o Vite abre o projeto em um servidor local. Para testar o build final:
+Para testar o build final:
 
 ```bash
 npm run build
@@ -70,7 +65,7 @@ npm ci
 npm run build
 ```
 
-Depois publica a pasta `dist` no GitHub Pages. Se necessário, em Settings > Pages, selecione `GitHub Actions` como origem da publicação.
+Depois publica a pasta `dist` no GitHub Pages. Em Settings > Pages, a origem deve continuar como `GitHub Actions`.
 
 ## Contato
 
@@ -78,4 +73,3 @@ Depois publica a pasta `dist` no GitHub Pages. Se necessário, em Settings > Pag
 - LinkedIn: https://www.linkedin.com/in/allison-joanine-ti
 - GitHub: https://github.com/allisonjoanine
 - E-mail profissional: allisonjoanineofficial@gmail.com
-- E-mail LogiCodem: logicodem@gmail.com

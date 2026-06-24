@@ -1,43 +1,35 @@
-import { Bot, BrainCircuit, Code2, LockKeyhole, Network, Sparkles } from "lucide-react";
+import { SectionHeader } from "./SectionHeader";
 
-type FocusCard = {
-  title: string;
-  description: string;
-  Icon: typeof Code2;
-};
-
-const focusCards: FocusCard[] = [
-  { title: "Desenvolvimento Full Stack", description: "Web, mobile, APIs e produtos digitais completos.", Icon: Code2 },
-  { title: "Inteligencia Artificial", description: "Automacao, chatbots, visao computacional e analise inteligente.", Icon: BrainCircuit },
-  { title: "Infraestrutura Corporativa", description: "Microsoft 365, redes, VPN, servidores e ambientes reais.", Icon: Network },
-  { title: "Seguranca de TI", description: "Permissoes, firewall, GPO, endpoints e boas praticas.", Icon: LockKeyhole },
-  { title: "Automacao", description: "Fluxos que reduzem trabalho manual e aumentam eficiencia.", Icon: Bot },
-  { title: "Produtos Digitais", description: "Solucoes organizadas, uteis, seguras e prontas para uso.", Icon: Sparkles }
+const notes = [
+  "Atendimento a usuários, chamados e diagnóstico com pressão real de operação.",
+  "Infraestrutura, redes, permissões, Microsoft 365, servidores e rotina de suporte.",
+  "Desenvolvimento web e APIs conectados a necessidades que aparecem fora do código.",
+  "Projetos próprios com IA, automação, visão computacional e produtos digitais."
 ];
 
 export function About() {
   return (
-    <section className="section-shell content-section" id="about">
-      <div className="section-heading">
-        <p className="eyebrow">Sobre mim</p>
-        <h2>Base construida na pratica da TI corporativa.</h2>
+    <section className="section-shell content-section about-section" id="about">
+      <SectionHeader
+        eyebrow="Sobre mim"
+        title="Minha base veio da TI que precisa resolver, não apenas parecer bonita."
+      >
         <p>
-          Sou Allison Joanine, desenvolvedor Full Stack com uma base construida na pratica da TI corporativa.
-          Minha experiencia passa por suporte tecnico, infraestrutura, seguranca, usuarios, redes, permissoes,
-          Microsoft 365, VPN, firewall e Active Directory.
+          Eu sou o Allison Joanine. Minha trajetória mistura suporte técnico, service desk, infraestrutura e
+          desenvolvimento web. Essa combinação me deu uma visão bem direta do que um sistema precisa ter para ajudar
+          alguém de verdade: clareza, estabilidade, segurança e manutenção possível.
         </p>
         <p>
-          Essa vivencia me ajuda a criar sistemas que nao sao apenas bonitos, mas uteis, seguros, organizados
-          e preparados para resolver problemas reais.
+          Nos meus projetos eu levo essa experiência prática para o produto. Penso na tela, na API, no banco, no deploy,
+          no usuário final e nos problemas que costumam aparecer quando a solução sai do ambiente ideal.
         </p>
-      </div>
+      </SectionHeader>
 
-      <div className="focus-grid">
-        {focusCards.map(({ title, description, Icon }) => (
-          <article className="premium-card focus-card" key={title}>
-            <Icon size={24} aria-hidden="true" />
-            <h3>{title}</h3>
-            <p>{description}</p>
+      <div className="about-ledger" data-reveal>
+        {notes.map((note, index) => (
+          <article className="ledger-row" key={note}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <p>{note}</p>
           </article>
         ))}
       </div>

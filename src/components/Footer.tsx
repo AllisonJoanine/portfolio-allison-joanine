@@ -1,14 +1,14 @@
-import { ArrowUp } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export function Footer() {
   return (
     <footer className="site-footer">
       <div>
         <strong>Allison Joanine</strong>
-        <span>LogiCodem - Inteligencia aplicada ao codigo.</span>
+        <span>Desenvolvimento, suporte, infraestrutura, automação e IA aplicada.</span>
       </div>
       <a href="#home" aria-label="Voltar ao topo">
-        <ArrowUp size={18} /> Voltar ao topo
+        Voltar ao topo <ArrowUpRight size={17} aria-hidden="true" />
       </a>
     </footer>
   );
