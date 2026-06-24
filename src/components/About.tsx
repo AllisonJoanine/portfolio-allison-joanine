@@ -1,10 +1,10 @@
 import { SectionHeader } from "./SectionHeader";
 
 const notes = [
-  "Atendimento a usuários, chamados e diagnóstico com pressão real de operação.",
-  "Infraestrutura, redes, permissões, Microsoft 365, servidores e rotina de suporte.",
-  "Desenvolvimento web e APIs conectados a necessidades que aparecem fora do código.",
-  "Projetos próprios com IA, automação, visão computacional e produtos digitais."
+  "Desenvolvimento full stack com React.js, Python, C#, .NET, APIs REST e bancos de dados.",
+  "Base prática em infraestrutura: servidores, redes, VPN, Active Directory, Microsoft 365 e firewall.",
+  "Vivência em segurança de TI, permissões, endpoints, políticas de acesso, monitoramento e suporte corporativo.",
+  "Produtos próprios com IA aplicada, automação, reconhecimento facial, visão computacional e deploy real."
 ];
 
 export function About() {
@@ -12,16 +12,17 @@ export function About() {
     <section className="section-shell content-section about-section" id="about">
       <SectionHeader
         eyebrow="Sobre mim"
-        title="Minha base veio da TI que precisa resolver, não apenas parecer bonita."
+        title="Eu desenvolvo software pensando no ambiente real onde ele vai rodar."
       >
         <p>
-          Eu sou o Allison Joanine. Minha trajetória mistura suporte técnico, service desk, infraestrutura e
-          desenvolvimento web. Essa combinação me deu uma visão bem direta do que um sistema precisa ter para ajudar
-          alguém de verdade: clareza, estabilidade, segurança e manutenção possível.
+          Sou Allison Joanine de Araujo Ribeiro, Desenvolvedor Full Stack com experiência prática na criação de
+          aplicações web, APIs, automações e integrações com inteligência artificial. Trabalho com React.js, Python,
+          Flask, C#, .NET, PostgreSQL e tecnologias modernas para transformar ideias em soluções úteis.
         </p>
         <p>
-          Nos meus projetos eu levo essa experiência prática para o produto. Penso na tela, na API, no banco, no deploy,
-          no usuário final e nos problemas que costumam aparecer quando a solução sai do ambiente ideal.
+          Meu diferencial é juntar desenvolvimento com infraestrutura corporativa e segurança de TI. Tenho vivência em
+          servidores, redes, Active Directory, Microsoft 365, VPN, firewall, permissões e suporte técnico, o que me ajuda
+          a criar sistemas mais seguros, estáveis e preparados para empresas.
         </p>
       </SectionHeader>
 

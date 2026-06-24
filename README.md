@@ -9,8 +9,8 @@ Site publicado: https://allisonjoanine.github.io/portfolio-allison-joanine/
 - Hero autoral com animação de título usando SplitType + GSAP.
 - CTAs com formato próprio, cantos recortados e microinterações via @gsap/react.
 - Scroll suave com Lenis, respeitando `prefers-reduced-motion`.
-- Seções para Sobre, Projetos em destaque, Experiência técnica, Linha do tempo e Contato.
-- Projetos apresentados em blocos diferentes para LogiGuard, City Votorantim e Predicta.
+- Seções para Sobre, Projetos em destaque, Stack técnica, Experiência profissional, Linha do tempo e Contato.
+- Projetos apresentados em blocos diferentes para LogiGuard, City Votorantim, LeiFácil, BladeWise e Predicta.
 - Componentes acessíveis com Radix UI para abas técnicas e tooltips de contato.
 - Tema escuro com textura sutil, linhas, microinterações e layout responsivo.
 
@@ -26,6 +26,7 @@ src/
     About.tsx
     Projects.tsx
     Skills.tsx
+    Experience.tsx
     Timeline.tsx
     Contact.tsx
   data/
@@ -72,5 +73,7 @@ Depois publica a pasta `dist` no GitHub Pages. Em Settings > Pages, a origem dev
 
 - WhatsApp: https://wa.me/5515991192202
 - LinkedIn: https://www.linkedin.com/in/allison-joanine-ti
-- GitHub: https://github.com/allisonjoanine
-- E-mail profissional: allisonjoanineofficial@gmail.com
+- GitHub: https://github.com/AllisonJoanine
+- E-mail profissional: allisonjoanine@gmail.com
+- Telefone: (15) 99186-1717
+- LogiCodem: logicodem@gmail.com

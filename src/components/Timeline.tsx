@@ -2,24 +2,24 @@ import { SectionHeader } from "./SectionHeader";
 
 const timeline = [
   {
-    title: "Suporte técnico e service desk",
-    text: "Contato direto com chamados, usuários, urgências e problemas que precisam de resposta objetiva."
+    title: "Suporte técnico e rotina corporativa",
+    text: "Contato direto com usuários, chamados, estações, e-mails, redes, impressoras, softwares e problemas de operação."
   },
   {
-    title: "Infraestrutura e resolução real",
-    text: "Redes, permissões, Microsoft 365, VPN, servidores, firewall e análise de falhas no ambiente corporativo."
+    title: "Infraestrutura e segurança de TI",
+    text: "Servidores, redes, Active Directory, GPO, Microsoft 365, VPN, FortiGate, permissões, endpoints e políticas de acesso."
   },
   {
     title: "Desenvolvimento web",
-    text: "Construção de interfaces, APIs, bancos de dados e fluxos completos para sistemas publicados."
+    text: "Interfaces, APIs, bancos de dados, integrações e publicação de aplicações com React.js, Python, Flask, C#, .NET e PostgreSQL."
   },
   {
     title: "Projetos com IA",
-    text: "Chatbots, reconhecimento facial, automações e integrações inteligentes aplicadas a necessidades práticas."
+    text: "Chatbots, OpenAI, reconhecimento facial, processamento de imagem, automações e serviços de IA separados da aplicação principal."
   },
   {
-    title: "Produtos próprios como LogiGuard",
-    text: "Evolução de ideias para produtos com arquitetura, multi-tenant, operação, segurança e visão de negócio."
+    title: "Produtos próprios na LogiCodem",
+    text: "LogiGuard, LeiFácil, BladeWise, City Votorantim e Predicta mostram a evolução de ideias para produtos digitais aplicáveis."
   }
 ];
 
@@ -28,7 +28,8 @@ export function Timeline() {
     <section className="section-shell content-section timeline-section" id="timeline">
       <SectionHeader eyebrow="Linha do tempo" title="Uma evolução construída por camadas, não por atalhos." align="center">
         <p>
-          A jornada começa no suporte, passa pela infraestrutura e chega ao desenvolvimento de produtos próprios com IA.
+          Minha jornada começa no suporte, passa por segurança e infraestrutura, e chega ao desenvolvimento de produtos
+          full stack com IA aplicada.
         </p>
       </SectionHeader>
 

@@ -7,12 +7,12 @@ export function Projects() {
     <section className="section-shell content-section projects-section" id="projects">
       <SectionHeader
         eyebrow="Projetos em destaque"
-        title="Três projetos com naturezas diferentes, todos nascidos de problemas reais."
+        title="Projetos que unem full stack, IA, infraestrutura e aplicação real."
         align="center"
       >
         <p>
-          A ideia aqui não é empilhar cards iguais. Cada projeto aparece no formato que combina com a história dele:
-          produto de segurança, serviço público com dados reais e pesquisa aplicada.
+          Meus principais projetos mostram produto, dados, segurança, automação e inteligência artificial: LogiGuard,
+          City Votorantim, LeiFácil, BladeWise e Predicta.
         </p>
       </SectionHeader>
 
@@ -58,7 +58,7 @@ export function Projects() {
                     <span />
                     <span />
                     <span />
-                    <strong>Predicta</strong>
+                    <strong>{project.visualLabel ?? project.name}</strong>
                   </div>
                 )}
               </div>

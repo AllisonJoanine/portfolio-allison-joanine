@@ -7,11 +7,11 @@ export function Skills() {
     <section className="section-shell content-section skills-section" id="skills">
       <SectionHeader
         eyebrow="Experiência técnica"
-        title="A stack acompanha o tipo de problema: interface, dados, infraestrutura e inteligência."
+        title="Minha stack junta aplicação, dados, IA, infraestrutura e segurança."
       >
         <p>
-          Organizei as áreas pelo tipo de decisão que cada uma ajuda a tomar: o que o usuário vê, como os dados circulam
-          e onde a solução precisa continuar funcionando.
+          Não é uma lista solta de ferramentas. É o conjunto que uso para criar, publicar, proteger, diagnosticar e
+          manter soluções em ambientes reais.
         </p>
       </SectionHeader>
 

@@ -4,7 +4,8 @@ import { useState } from "react";
 const navItems = [
   ["Sobre", "#about"],
   ["Projetos", "#projects"],
-  ["Experiência", "#skills"],
+  ["Stack", "#skills"],
+  ["Experiência", "#experience"],
   ["Jornada", "#timeline"],
   ["Contato", "#contact"]
 ];

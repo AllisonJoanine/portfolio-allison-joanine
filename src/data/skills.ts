@@ -7,34 +7,98 @@ export type SkillArea = {
 
 export const skillAreas: SkillArea[] = [
   {
-    value: "frontend",
-    title: "Frontend",
-    summary: "Interfaces responsivas, componentes reutilizáveis e experiência de uso sem firula desnecessária.",
-    skills: ["React", "TypeScript", "Tailwind CSS"]
-  },
-  {
-    value: "backend",
-    title: "Backend",
-    summary: "APIs, integrações e regras de negócio organizadas para produto real.",
-    skills: ["ASP.NET Core", "Flask", "FastAPI", "APIs REST"]
+    value: "fullstack",
+    title: "Desenvolvimento Full Stack",
+    summary:
+      "Criação de interfaces, APIs, integrações e aplicações completas com foco em uso real, manutenção e publicação.",
+    skills: [
+      "React.js",
+      "React Native",
+      "Angular",
+      "Node.js",
+      "Python",
+      "Flask",
+      "FastAPI",
+      "C#",
+      ".NET",
+      "APIs REST",
+      "TypeScript",
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "Tailwind CSS"
+    ]
   },
   {
     value: "database",
     title: "Banco de dados",
-    summary: "Modelagem e persistência para aplicações com autenticação, eventos, histórico e consultas úteis.",
-    skills: ["PostgreSQL", "Redis"]
-  },
-  {
-    value: "infra",
-    title: "Infraestrutura",
-    summary: "Deploy, ambientes, suporte técnico e leitura prática de problemas de operação.",
-    skills: ["Docker", "VPS", "Vercel", "Render", "Redes", "Suporte técnico"]
+    summary:
+      "Estruturação de dados para sistemas web, integrações backend/banco, consultas e modelagem para aplicações reais.",
+    skills: ["PostgreSQL", "MongoDB", "Modelagem de dados", "Integração backend/banco", "Consultas SQL"]
   },
   {
     value: "ai",
-    title: "IA",
-    summary: "IA aplicada a fluxos concretos: chatbots, reconhecimento facial, automações e integrações inteligentes.",
-    skills: ["OpenAI", "Reconhecimento facial", "Automações", "Integrações inteligentes"]
+    title: "Inteligência Artificial",
+    summary:
+      "IA aplicada a produtos, automações, chatbots, reconhecimento facial, processamento de imagem e análise de eventos por câmera.",
+    skills: [
+      "OpenAI API",
+      "Chatbots com IA",
+      "Automação com IA",
+      "Reconhecimento facial",
+      "OpenCV",
+      "InsightFace",
+      "FastAPI para serviços de IA",
+      "Classificação de conhecidos/desconhecidos"
+    ]
+  },
+  {
+    value: "security",
+    title: "Infraestrutura e Segurança",
+    summary:
+      "Base prática em ambientes corporativos, redes, servidores, permissões, segurança, endpoints e diagnóstico técnico.",
+    skills: [
+      "Windows Server",
+      "Linux",
+      "Active Directory",
+      "GPO",
+      "DNS",
+      "VPN",
+      "Firewall",
+      "FortiGate",
+      "FortiClient",
+      "Redes corporativas",
+      "ESET",
+      "RMM",
+      "Acesso remoto"
+    ]
+  },
+  {
+    value: "microsoft",
+    title: "Microsoft 365",
+    summary:
+      "Administração e suporte em ambientes Microsoft, com foco em usuários, permissões, sincronização e diagnóstico.",
+    skills: ["Outlook", "OneDrive", "SharePoint", "Teams", "Administração de usuários", "Permissões", "E-mail corporativo"]
+  },
+  {
+    value: "devops",
+    title: "DevOps, deploy e ferramentas",
+    summary:
+      "Publicação de aplicações, configuração de ambientes e ferramentas para troubleshooting, documentação e operação.",
+    skills: [
+      "Docker",
+      "Docker Compose",
+      "Vercel",
+      "Render",
+      "Azure",
+      "Git",
+      "GitHub",
+      "Nginx",
+      "Variáveis de ambiente",
+      "PowerShell",
+      "CMD",
+      "Documentação técnica"
+    ]
   }
 ];
 
