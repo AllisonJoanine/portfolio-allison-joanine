@@ -24,6 +24,13 @@
     <title>Allison Joanine | Full Stack, IA, Infraestrutura e Segurança</title>
   </head>
   <body>
+    <script>
+      (() => {
+        const theme = window.localStorage.getItem("portfolio-theme") === "light" ? "light" : "dark";
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

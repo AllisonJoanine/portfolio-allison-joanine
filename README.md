@@ -8,6 +8,7 @@ Site publicado: https://allisonjoanine.github.io/portfolio-allison-joanine/
 
 - Hero autoral com animação de título usando SplitType + GSAP.
 - CTAs com formato próprio, cantos recortados e microinterações via @gsap/react.
+- Alternância entre modo dark e modo light, com dark como padrão e preferência salva no navegador.
 - Scroll suave com Lenis, respeitando `prefers-reduced-motion`.
 - Seções para Sobre, Projetos em destaque, Stack técnica, Experiência profissional, Linha do tempo e Contato.
 - Projetos apresentados em blocos diferentes para LogiGuard, City Votorantim, LeiFácil, BladeWise e Predicta.
@@ -22,6 +23,7 @@ src/
     AnimatedText.tsx
     SmoothScrollProvider.tsx
     SectionHeader.tsx
+    ThemeToggle.tsx
     Hero.tsx
     About.tsx
     Projects.tsx

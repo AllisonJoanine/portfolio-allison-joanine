@@ -1,5 +1,6 @@
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = [
   ["Sobre", "#about"],
@@ -21,23 +22,26 @@ export function Header() {
           <strong>Allison Joanine</strong>
         </a>
 
-        <button
-          className="menu-button"
-          type="button"
-          aria-label={open ? "Fechar menu" : "Abrir menu"}
-          aria-controls="main-navigation"
-          aria-expanded={open}
-          onClick={() => setOpen((value) => !value)}
-        >
-          {open ? <X size={21} aria-hidden="true" /> : <Menu size={21} aria-hidden="true" />}
-        </button>
-
         <div className={`nav-links ${open ? "is-open" : ""}`} id="main-navigation">
           {navItems.map(([label, href]) => (
             <a key={href} href={href} onClick={() => setOpen(false)}>
               {label}
             </a>
           ))}
+        </div>
+
+        <div className="nav-tools">
+          <ThemeToggle />
+          <button
+            className="menu-button"
+            type="button"
+            aria-label={open ? "Fechar menu" : "Abrir menu"}
+            aria-controls="main-navigation"
+            aria-expanded={open}
+            onClick={() => setOpen((value) => !value)}
+          >
+            {open ? <X size={21} aria-hidden="true" /> : <Menu size={21} aria-hidden="true" />}
+          </button>
         </div>
       </nav>
     </header>
